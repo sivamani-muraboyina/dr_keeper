@@ -1,0 +1,21 @@
+# Colang 1.0 rails - define what is allowed vs refused (same design as the live session)
+
+define user ask for medical advice
+  "recommend a drug for fluid retention"
+  "should I prescribe a higher dosage of furosemide?"
+  "what antibiotics should I start the patient on?"
+  "what is the best treatment for this patient?"
+  "diagnose this patient"
+
+define user ask patient history
+  "what was the last recorded dosage of furosemide?"
+  "show the last three lab results"
+  "what medications were prescribed at discharge?"
+  "summarize the admission history"
+
+define bot refuse medical advice
+  "I am an enterprise EHR retrieval system. For legal and compliance reasons I cannot provide treatment, prescribing or diagnostic recommendations. Please consult the attending physician."
+
+define flow prevent medical advice
+  user ask for medical advice
+  bot refuse medical advice

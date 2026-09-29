@@ -1,0 +1,23 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_USER: fde, POSTGRES_PASSWORD: fde_pass, POSTGRES_DB: ehrdb }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U fde -d ehrdb" --health-interval 5s --health-retries 20
+    env:
+      DATABASE_URL: postgresql+psycopg2://fde:fde_pass@localhost:5432/ehrdb
+      SPACY_MODEL: en_core_web_sm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements.txt && python -m spacy download en_core_web_sm
+      - run: PYTHONPATH=src python scripts/bootstrap.py
+      - run: PYTHONPATH=src python -m pytest -q tests
+      - run: PYTHONPATH=src python scripts/07_evaluate.py

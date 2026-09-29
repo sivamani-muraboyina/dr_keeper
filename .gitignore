@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# large real datasets (keep the small synthetic sample + truth files)
+data/*.csv
+!data/sample_encounters.csv
+*.pem

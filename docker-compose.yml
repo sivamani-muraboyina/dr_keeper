@@ -1,0 +1,40 @@
+# One command demo:  docker compose up --build     ->  http://localhost:8501
+services:
+  db:
+    image: pgvector/pgvector:pg16          # Postgres 16 + pgvector preinstalled
+    environment:
+      POSTGRES_USER: fde
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-fde_pass}
+      POSTGRES_DB: ehrdb
+    volumes: [pgdata:/var/lib/postgresql/data]
+    ports: ["127.0.0.1:5432:5432"]         # local only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fde -d ehrdb"]
+      interval: 5s
+      retries: 20
+
+  api:
+    build: { context: ., args: { WITH_ML: "${WITH_ML:-false}", SPACY_MODEL: "${SPACY_MODEL:-en_core_web_lg}" } }
+    env_file: [.env]
+    environment:
+      DATABASE_URL: postgresql+psycopg2://fde:${DB_PASSWORD:-fde_pass}@db:5432/ehrdb
+    depends_on: { db: { condition: service_healthy } }
+    command: sh -c "python scripts/bootstrap.py && uvicorn ehr.api:app --host 0.0.0.0 --port 8000"
+    ports: ["127.0.0.1:8000:8000"]         # API is NOT exposed publicly
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 10s
+      retries: 30
+      start_period: 60s
+
+  ui:
+    build: { context: ., args: { WITH_ML: "false", SPACY_MODEL: "${SPACY_MODEL:-en_core_web_lg}" } }
+    env_file: [.env]
+    environment:
+      API_URL: http://api:8000
+    depends_on: { api: { condition: service_healthy } }
+    command: streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true
+    ports: ["8501:8501"]
+
+volumes:
+  pgdata:

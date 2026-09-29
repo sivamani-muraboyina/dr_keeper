@@ -1,0 +1,5 @@
+# Optional: semantic biomedical embeddings (EMBED_BACKEND=st). Heavy (torch).
+sentence-transformers>=3.3
+transformers>=4.48
+# Optional: second guardrail layer (USE_NEMO=true) - experimental
+# nemoguardrails>=0.9

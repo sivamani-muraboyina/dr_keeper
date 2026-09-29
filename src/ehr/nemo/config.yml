@@ -1,0 +1,6 @@
+# EXPERIMENTAL / UNTESTED in the sandbox build: enable with USE_NEMO=true and `pip install nemoguardrails`.
+# Uses an OpenAI-compatible endpoint (e.g. DeepSeek): the adapter sets OPENAI_API_KEY / OPENAI_API_BASE from your .env.
+models:
+  - type: main
+    engine: openai
+    model: deepseek-chat
