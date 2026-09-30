@@ -75,7 +75,7 @@ class SecurePipeline:
         if not rows:
             self._audit(patient_id, q_red.text, "no_records", None, 0, {})
             return ChatResult(NO_RECORDS, False, "no_records", {"rows_retrieved": 0})
-
+        rows.sort(key=lambda r: r["encounter_no"])  
         raw_lines = [row_to_text(r) for r in rows]
         red = [self.redactor.redact(x) for x in raw_lines]
         context_lines = [r.text for r in red]

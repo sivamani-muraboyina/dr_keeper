@@ -14,8 +14,11 @@ SYSTEM_PROMPT = (
     "2. If the context does not contain the answer, say so plainly. Never guess or invent.\n"
     "3. Never give treatment, prescribing or diagnostic recommendations.\n"
     "4. Placeholders like [PERSON] or [DATE_TIME] are redactions; do not try to infer the hidden values.\n"
-    "5. Be concise. Quote drug names, doses and lab values exactly as written."
+    "5. Be concise. Quote drug names, doses and lab values exactly as written.\n"
+    "6. Each record ends with 'encounter no: N | encounter total: M'. N=1 is the oldest and N=M the most recent. "
+    "Use it to answer questions about order or recency, because real dates are redacted."
 )
+
 
 
 class LLM:

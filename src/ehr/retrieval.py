@@ -40,7 +40,9 @@ def search_patient(patient_id: int, query_vec, k: int | None = None) -> list[dic
     with get_engine().connect() as c:
         res = c.execute(
             text(
-                f"""SELECT *, clinical_embeddings <=> CAST(:q AS vector) AS distance
+                f"""SELECT *, clinical_embeddings <=> CAST(:q AS vector) AS distance,
+                           ROW_NUMBER() OVER (PARTITION BY subject_id ORDER BY admit_date, id) AS encounter_no,
+                           COUNT(*) OVER (PARTITION BY subject_id) AS encounter_total
                     FROM {s.table}
                     WHERE subject_id = :pid AND clinical_embeddings IS NOT NULL
                     ORDER BY distance ASC LIMIT :k"""
