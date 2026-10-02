@@ -10,7 +10,7 @@ Clinical records contain useful history, but they are difficult to query quickly
 - Every request needs an auditable decision and outcome.
 - The system should run locally and remain useful without a paid model API during development.
 
-This repository is a technical demonstration using synthetic data. It is not a HIPAA certification, a production clinical system, or a substitute for clinical judgment.
+This repository is a reference implementation using synthetic data. It is not a HIPAA certification, a production clinical system, or a substitute for clinical judgment.
 
 ## 2. Solution Summary
 
@@ -50,7 +50,7 @@ The complete request path is shown in [secure-query-flow.svg](diagrams/secure-qu
 
 **Decision:** Require a patient selection and search only that patient's embedded encounters.
 
-**Why:** This is a safety boundary, not only an optimization. It prevents the retriever from choosing a semantically similar record belonging to another patient. It also reduces the number of vector comparisons: the demo searches a small patient-specific subset instead of the entire table.
+**Why:** This is a safety boundary, not only an optimization. It prevents the retriever from choosing a semantically similar record belonging to another patient. It also reduces the number of vector comparisons by searching a small patient-specific subset instead of the entire table.
 
 **Trade-off:** Users must select the correct patient before asking a question. Cross-patient population analysis is intentionally outside this interface and would need a separate authorization and query design.
 
@@ -92,7 +92,7 @@ The complete request path is shown in [secure-query-flow.svg](diagrams/secure-qu
 
 **Why:** The separation makes the API testable, supports a future non-Streamlit client, keeps database and model work out of the UI layer, and gives the backend one place to enforce guardrails and audit behavior.
 
-**Trade-off:** Local and cloud deployments need service discovery, environment variables, and at least two processes. Streamlit Community Cloud cannot run the current Docker Compose stack by itself. The documented deployment target is Docker, with AWS used for a prior demonstration deployment.
+**Trade-off:** Local and cloud deployments need service discovery, environment variables, and at least two processes. Streamlit Community Cloud cannot run the current Docker Compose stack by itself. The documented deployment target is Docker, with AWS used for a prior validated deployment.
 
 ### 3.9 Use Docker Compose for reproducible local operation
 
@@ -100,7 +100,7 @@ The complete request path is shown in [secure-query-flow.svg](diagrams/secure-qu
 
 **Why:** The database extension, API dependencies, bootstrap process, and UI can be started consistently with one command. This reduces machine-specific setup problems.
 
-**Trade-off:** Docker consumes more resources than a single Python process and is not directly equivalent to a managed cloud deployment. The Compose configuration is intentionally a development/demo deployment, not a complete production hardening guide.
+**Trade-off:** Docker consumes more resources than a single Python process and is not directly equivalent to a managed cloud deployment. The Compose configuration is intended for reproducible development and validation, not as a complete production hardening guide.
 
 ### 3.10 Audit decisions, not raw PHI
 
@@ -108,20 +108,20 @@ The complete request path is shown in [secure-query-flow.svg](diagrams/secure-qu
 
 **Why:** Compliance and debugging require evidence of what the system decided. Storing redacted content and counts gives useful traceability without deliberately copying raw questions or raw context into the audit table.
 
-**Trade-off:** A useful audit trail still needs access control, retention rules, monitoring, and a defined operator identity in a real deployment. The demo records the application event but does not implement a complete enterprise identity system.
+**Trade-off:** A useful audit trail still needs access control, retention rules, monitoring, and a defined operator identity in a real deployment. This implementation records the application event but does not implement a complete enterprise identity system.
 
 ## 4. Deployment Position
 
-The application was deployed and tested on AWS during development. The instance was terminated after recording the demonstration to avoid ongoing infrastructure costs. There is no maintained public deployment at present.
+The application was deployed and tested on AWS during development. The instance was terminated after validation to avoid ongoing infrastructure costs. There is no maintained public deployment at present.
 
-The current Docker Compose architecture can be deployed again on a VM or split into separate managed services. Streamlit Community Cloud can host the UI process, but it cannot host the current FastAPI, Postgres, and pgvector stack as one application. A Streamlit-only deployment would require a separate demo architecture using local or in-memory data, which is intentionally not part of this project.
+The current Docker Compose architecture can be deployed again on a VM or split into separate managed services. Streamlit Community Cloud can host the UI process, but it cannot host the current FastAPI, Postgres, and pgvector stack as one application. A Streamlit-only deployment would require a separate architecture using local or in-memory data, which is intentionally not part of this project.
 
 ## 5. Known Limitations
 
 - The data is synthetic and must not be replaced with real PHI without a full security and compliance review.
 - The default hash embedding backend is lexical, not semantic.
 - Redaction has measured false positives and false negatives.
-- The demo uses an optional API key header, not enterprise authentication or authorization.
+- The application uses an optional API key header, not enterprise authentication or authorization.
 - Audit events do not yet include a real authenticated clinician identity.
 - In-memory application state and local deployment choices are not designed for high availability.
 - NeMo Guardrails is experimental and disabled by default.

@@ -23,7 +23,7 @@ class Settings:
     table: str = os.getenv("EHR_TABLE", "patient_encounters")
 
     # --- embeddings ---
-    # "hash"  : dependency-free lexical embedder (offline demo, CI, tests)
+    # "hash"  : dependency-free lexical embedder (offline mode, CI, tests)
     # "st"    : sentence-transformers model (semantic; needs requirements-ml.txt)
     embed_backend: str = os.getenv("EMBED_BACKEND", "hash")
     embed_model: str = os.getenv("EMBED_MODEL", "NeuML/bioclinical-modernbert-embeddings")

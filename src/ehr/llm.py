@@ -1,6 +1,6 @@
 """LLM access. The LLM only ever sees REDACTED context.
 
-mock   : extractive, deterministic answer built from the redacted context (no API key, offline demo).
+mock   : extractive, deterministic answer built from the redacted context (no API key, offline mode).
 openai : any OpenAI-compatible endpoint via base_url (OpenAI, DeepSeek, Groq, Ollama, vLLM...).
 """
 from __future__ import annotations
@@ -48,5 +48,5 @@ class LLM:
 
     @staticmethod
     def _mock(question: str, context_lines: list[str]) -> str:
-        head = "Most relevant records for this patient (redacted; offline demo mode, no LLM):"
+            head = "Most relevant records for this patient (redacted; offline mode, no LLM):"
         return head + "\n" + "\n".join(f"{i}. {c}" for i, c in enumerate(context_lines[:5], 1))

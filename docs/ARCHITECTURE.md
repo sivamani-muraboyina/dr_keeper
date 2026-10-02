@@ -8,7 +8,7 @@ questions about ONE patient's history in plain English. The data is PHI (HIPAA),
 | Decision | Why |
 |---|---|
 | pgvector inside the client's Postgres | no new database, no data leaving the client stack |
-| Select patient first, then search | filter-then-vector-search: 276 demo rows → ~12 per patient (25 M → ~100 at hospital scale ≈ 250,000× fewer comparisons) |
+| Select patient first, then search | filter-then-vector-search: 276 synthetic rows → ~12 per patient (25 M → ~100 at hospital scale ≈ 250,000× fewer comparisons) |
 | Redact BEFORE the LLM (and after) | once PHI reaches a third-party model it is already disclosed |
 | Guardrails before retrieval/LLM | blocked requests cost nothing and can't leak; deterministic rules are testable and free |
 | Custom pipeline, no LangGraph | no tool calls / loops → conversation-history list is enough |

@@ -5,8 +5,8 @@
 ## Steps
 1. `docker compose up --build` → services `db` (pgvector), `api` (bootstrap then uvicorn), `ui` (Streamlit 8501).
 2. `Dockerfile` args: `WITH_ML=true` (torch + sentence-transformers), `SPACY_MODEL`.
-3. AWS steps (SG → EC2 → Elastic IP → Docker → compose): `docs/AWS_LATER.md`.
-4. Redeploy after changes: `git pull && docker compose up -d --build`. CI/CD is a later upgrade.
+3. AWS steps (security group → EC2 → Elastic IP → Docker → Compose): `docs/AWS_DEPLOYMENT.md`.
+4. Redeploy after changes: `git pull && docker compose up -d --build`.
 
 ## Done when
 http://localhost:8501 (or `http://<EC2_IP>:8501`) answers questions.

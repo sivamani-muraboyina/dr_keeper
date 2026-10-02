@@ -1,4 +1,4 @@
-# One command demo:  docker compose up --build     ->  http://localhost:8501
+# Local stack:  docker compose up --build     ->  http://localhost:8501
 services:
   db:
     image: pgvector/pgvector:pg16          # Postgres 16 + pgvector preinstalled

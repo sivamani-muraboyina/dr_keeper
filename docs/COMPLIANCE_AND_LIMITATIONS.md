@@ -1,4 +1,4 @@
-# Compliance & limitations (demo edition)
+# Compliance & Limitations
 
 ## Regulatory frame
 * **HIPAA** covers providers, clearinghouses, insurers and their business associates. **PHI** = any data that can
@@ -8,15 +8,15 @@
 * Redaction patterns are region-specific (US SSN here; India would need Aadhaar, etc.).
 * Not every number is PII - lab values / counts must survive redaction.
 
-## What changes because this is a synthetic-data demo
-| Gap from the live session | Status in this demo |
+## Current Implementation Boundaries
+| Gap | Current implementation |
 |---|---|
-| External LLM API sees data (BAA problem) | Demo data is synthetic → no real PHI leaves. Default `mock` LLM sends nothing anywhere. Real use: BAA-covered or self-hosted model (Ollama/vLLM). |
-| Only ~11k of 232k rows embedded (7 h on CPU) | Demo has 276 rows → embeds in seconds. Scaling story: GPU, batching, HNSW index, smaller model. |
-| Guardrails cost extra LLM calls per question | Default guardrail is deterministic regex: 0 API calls, ~4 ms. NeMo is optional. |
+| External LLM API sees data (BAA problem) | Data is synthetic, so no real PHI leaves. Default `mock` LLM sends nothing anywhere. Real use: BAA-covered or self-hosted model (Ollama/vLLM). |
+| Only ~11k of 232k rows embedded (7 h on CPU) | The included dataset has 276 rows and embeds in seconds. Scaling requires GPU, batching, HNSW indexing, or a smaller model. |
+| Guardrails cost extra LLM calls per question | The default guardrail is deterministic regex: 0 API calls, ~4 ms. NeMo is optional. |
 | No audit trail | `audit_log` table + `/api/v1/audit`. |
 | Open API | optional `X-API-Key`; only the UI port is public in compose. |
-| No tests / metrics | 55 tests, `make eval` produces reproducible numbers, CI workflow included. |
+| No tests / metrics | 55 tests, `make eval` produces reproducible numbers, and a CI workflow is included. |
 
 ## Limitations that remain (state these honestly)
 * **Metrics are on synthetic data authored by the repo owner.** PHI-leak 0.3 % / retention 94 % will be worse on real,

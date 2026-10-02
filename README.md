@@ -2,6 +2,8 @@
 
 > Privacy-conscious natural-language retrieval over patient records. Select one patient, ask about historical clinical facts, and receive an answer from patient-scoped records with PHI redaction, safety guardrails, and audit logging.
 
+▶️ **[Watch the AWS deployment and application demo on YouTube](https://youtu.be/zgjYudpCnAE)**
+
 [![Python](https://img.shields.io/badge/Python-3.12-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B)](https://streamlit.io/)
@@ -9,7 +11,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED)](https://www.docker.com/)
 [![CI](https://github.com/sivamani-muraboyina/dr_keeper/actions/workflows/ci.yml/badge.svg)](https://github.com/sivamani-muraboyina/dr_keeper/actions/workflows/ci.yml)
 
-> ⚠️ This is a technical demonstration using 100% synthetic data. It is not a HIPAA certification, production clinical software, or a substitute for clinical judgment.
+> ⚠️ This is a reference implementation using 100% synthetic data. It is not a HIPAA certification, production clinical software, or a substitute for clinical judgment.
 
 ---
 
@@ -28,7 +30,7 @@ The project remains reproducible locally with Docker. Streamlit Community Cloud 
 5. Toggle the pipeline trace to inspect retrieval, redaction counts, and latency.
 6. Try *"Should I increase the dose?"* or *"What is the patient's phone number?"* to see guardrails refuse unsafe requests.
 
-> **What this demonstrates:** patient-scoped vector retrieval, PHI redaction before and after generation, deterministic guardrails, optional LLM integration, audit logging, Docker packaging, and reproducible evaluation.
+> **Capabilities:** patient-scoped vector retrieval, PHI redaction before and after generation, deterministic guardrails, optional LLM integration, audit logging, Docker packaging, and reproducible evaluation.
 
 ---
 
@@ -212,8 +214,8 @@ The repository includes unit tests for redaction, guardrails, embeddings, and th
 - [Design decisions and trade-offs](docs/DESIGN_DECISIONS.md)
 - [Architecture notes](docs/ARCHITECTURE.md)
 - [Compliance and limitations](docs/COMPLIANCE_AND_LIMITATIONS.md)
-- [Demo script](docs/DEMO_SCRIPT.md)
-- [AWS deployment notes](docs/AWS_LATER.md)
+- [Validation runbook](docs/VALIDATION_RUNBOOK.md)
+- [AWS deployment notes](docs/AWS_DEPLOYMENT.md)
 
 ## 📁 Project Structure
 
